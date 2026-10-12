@@ -1,0 +1,673 @@
+/* ==========================================
+   ORION FOREST v6.0 - MENU CSS
+   Ana menü, tutorial, karakter oluşturma
+   ========================================== */
+
+/* ==================== ANA MENÜ ==================== */
+#mainMenu {
+  position: fixed;
+  inset: 0;
+  background: #050810;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9000;
+  overflow: hidden;
+  transition: opacity 0.5s;
+}
+
+#mainMenu.hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.menu-bg-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+}
+
+.menu-content {
+  position: relative;
+  z-index: 10;
+  text-align: center;
+  padding: 20px;
+  animation: menuIn 1s ease;
+}
+
+@keyframes menuIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.game-logo {
+  font-size: 70px;
+  font-weight: 900;
+  letter-spacing: 10px;
+  background: linear-gradient(135deg, #4cc9f0 0%, #a29bfe 40%, #f72585 70%, #4cc9f0 100%);
+  background-size: 200% 200%;
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  line-height: 1;
+  margin-bottom: 8px;
+  filter: drop-shadow(0 0 40px rgba(76, 201, 240, 0.6));
+  animation: logoShift 5s ease infinite;
+}
+
+@keyframes logoShift {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+
+.game-subtitle {
+  font-size: 12px;
+  color: #8892b0;
+  letter-spacing: 12px;
+  margin-bottom: 40px;
+  font-weight: 300;
+  position: relative;
+}
+
+.game-subtitle::before,
+.game-subtitle::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  width: 40px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, #4cc9f0);
+}
+
+.game-subtitle::before { left: -50px; }
+.game-subtitle::after {
+  right: -50px;
+  background: linear-gradient(90deg, #4cc9f0, transparent);
+}
+
+/* ==================== MENÜ BUTONLARI ==================== */
+.menu-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 320px;
+  margin: 0 auto;
+}
+
+.menu-btn {
+  background: rgba(15, 25, 50, 0.7);
+  border: 2px solid rgba(76, 201, 240, 0.35);
+  color: #fff;
+  padding: 16px 24px;
+  border-radius: 14px;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 3px;
+  cursor: pointer;
+  transition: all 0.3s;
+  backdrop-filter: blur(15px);
+  position: relative;
+  overflow: hidden;
+  font-family: inherit;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+}
+
+.menu-btn .btn-icon {
+  font-size: 20px;
+  transition: transform 0.3s;
+}
+
+.menu-btn .btn-badge {
+  position: absolute;
+  top: 8px;
+  right: 12px;
+  background: #ff0844;
+  color: #fff;
+  font-size: 9px;
+  padding: 2px 6px;
+  border-radius: 8px;
+  letter-spacing: 0;
+}
+
+.menu-btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(76, 201, 240, 0.4), transparent);
+  transition: left 0.6s;
+}
+
+.menu-btn:hover::before {
+  left: 100%;
+}
+
+.menu-btn:hover,
+.menu-btn:active {
+  border-color: #4cc9f0;
+  box-shadow: 0 0 35px rgba(76, 201, 240, 0.5);
+  transform: translateY(-3px);
+  color: #4cc9f0;
+}
+
+.menu-btn:hover .btn-icon {
+  transform: scale(1.2) rotate(-10deg);
+}
+
+.menu-btn.primary {
+  background: linear-gradient(135deg, rgba(76, 201, 240, 0.25), rgba(162, 155, 254, 0.25));
+  border-color: #4cc9f0;
+  font-size: 15px;
+  padding: 18px 24px;
+}
+
+.menu-btn.danger {
+  border-color: rgba(255, 8, 68, 0.5);
+}
+
+.menu-btn.danger:hover {
+  border-color: #ff0844;
+  box-shadow: 0 0 35px rgba(255, 8, 68, 0.5);
+  color: #ff0844;
+}
+
+/* ==================== MENÜ KÖŞELERİ ==================== */
+.menu-corner {
+  position: absolute;
+  font-size: 60px;
+  opacity: 0.15;
+  z-index: 1;
+  animation: cornerFloat 6s ease-in-out infinite;
+  pointer-events: none;
+}
+
+.menu-corner.tl { top: 20px; left: 20px; animation-delay: 0s; }
+.menu-corner.tr { top: 20px; right: 20px; animation-delay: 1.5s; }
+.menu-corner.bl { bottom: 20px; left: 20px; animation-delay: 3s; }
+.menu-corner.br { bottom: 20px; right: 20px; animation-delay: 4.5s; }
+
+@keyframes cornerFloat {
+  0%, 100% {
+    transform: translateY(0) rotate(-5deg);
+    opacity: 0.15;
+  }
+  50% {
+    transform: translateY(-15px) rotate(5deg);
+    opacity: 0.3;
+  }
+}
+
+/* ==================== MENÜ ALT KISIM ==================== */
+.menu-footer {
+  position: absolute;
+  bottom: 18px;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 10px;
+  color: #4a5568;
+  letter-spacing: 3px;
+  z-index: 10;
+}
+
+.menu-version {
+  position: absolute;
+  top: 18px;
+  right: 18px;
+  font-size: 10px;
+  color: #4cc9f0;
+  letter-spacing: 2px;
+  z-index: 10;
+  padding: 6px 12px;
+  border: 1px solid rgba(76, 201, 240, 0.4);
+  border-radius: 15px;
+  background: rgba(15, 25, 50, 0.7);
+  backdrop-filter: blur(10px);
+}
+
+.menu-stats {
+  position: absolute;
+  top: 18px;
+  left: 18px;
+  font-size: 10px;
+  color: #8892b0;
+  letter-spacing: 1px;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.menu-stats span {
+  background: rgba(15, 25, 50, 0.7);
+  padding: 5px 10px;
+  border-radius: 8px;
+  border: 1px solid rgba(76, 201, 240, 0.2);
+  backdrop-filter: blur(10px);
+}
+
+/* ==================== TUTORIAL ==================== */
+#tutorialOverlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9800;
+  pointer-events: none;
+  display: none;
+}
+
+#tutorialOverlay.show {
+  display: block;
+}
+
+.tut-bg {
+  position: absolute;
+  inset: 0;
+  background: rgba(5, 8, 15, 0.75);
+  backdrop-filter: blur(6px);
+  animation: tutBgIn 0.5s;
+}
+
+@keyframes tutBgIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.tut-spotlight {
+  position: absolute;
+  border: 3px solid #4cc9f0;
+  border-radius: 16px;
+  box-shadow: 0 0 40px rgba(76, 201, 240, 0.8), inset 0 0 40px rgba(76, 201, 240, 0.3);
+  pointer-events: none;
+  animation: tutSpot 0.8s;
+  transition: all 0.4s;
+}
+
+@keyframes tutSpot {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.tut-arrow {
+  position: absolute;
+  font-size: 40px;
+  color: #4cc9f0;
+  pointer-events: none;
+  animation: tutArrow 1.5s infinite;
+  filter: drop-shadow(0 0 15px rgba(76, 201, 240, 0.9));
+}
+
+@keyframes tutArrow {
+  0%, 100% { transform: translateY(0) scale(1); }
+  50% { transform: translateY(-10px) scale(1.1); }
+}
+
+.tut-card {
+  position: absolute;
+  background: linear-gradient(145deg, rgba(15, 25, 50, 0.98), rgba(26, 35, 66, 0.98));
+  border: 2px solid #4cc9f0;
+  border-radius: 20px;
+  padding: 22px;
+  max-width: 420px;
+  box-shadow: 0 0 60px rgba(76, 201, 240, 0.5);
+  animation: tutCard 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  pointer-events: auto;
+}
+
+@keyframes tutCard {
+  from {
+    opacity: 0;
+    transform: scale(0.9) translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+.tut-card-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 14px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid rgba(76, 201, 240, 0.3);
+}
+
+.tut-card-icon {
+  font-size: 36px;
+  filter: drop-shadow(0 0 15px rgba(76, 201, 240, 0.6));
+}
+
+.tut-card-title {
+  color: #4cc9f0;
+  font-size: 16px;
+  font-weight: 800;
+  letter-spacing: 2px;
+  flex: 1;
+}
+
+.tut-card-step {
+  color: #8892b0;
+  font-size: 10px;
+  letter-spacing: 2px;
+}
+
+.tut-card-text {
+  color: #ccc;
+  font-size: 14px;
+  line-height: 1.7;
+  margin-bottom: 16px;
+}
+
+.tut-card-text strong {
+  color: #4cc9f0;
+}
+
+.tut-card-text kbd {
+  display: inline-block;
+  background: rgba(76, 201, 240, 0.15);
+  border: 1px solid rgba(76, 201, 240, 0.5);
+  color: #4cc9f0;
+  padding: 2px 8px;
+  border-radius: 6px;
+  font-family: monospace;
+  font-weight: 800;
+  font-size: 12px;
+  margin: 0 2px;
+}
+
+.tut-card-buttons {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.tut-card-buttons button {
+  flex: 1;
+  min-width: 100px;
+  background: linear-gradient(135deg, #4cc9f0, #4361ee);
+  color: #fff;
+  border: none;
+  padding: 12px 18px;
+  border-radius: 14px;
+  cursor: pointer;
+  font-weight: 800;
+  font-size: 12px;
+  letter-spacing: 2px;
+  transition: all 0.3s;
+  font-family: inherit;
+}
+
+.tut-card-buttons button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(76, 201, 240, 0.5);
+}
+
+.tut-card-buttons button.skip {
+  background: rgba(15, 25, 50, 0.8);
+  border: 2px solid rgba(76, 201, 240, 0.4);
+  flex: 0.6;
+}
+
+/* ==================== KARAKTER OLUŞTURMA ==================== */
+#characterCreation {
+  position: fixed;
+  inset: 0;
+  background: linear-gradient(145deg, #0a0e1a, #1a2342);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  z-index: 8500;
+  padding: 10px;
+  overflow-y: auto;
+}
+
+#characterCreation.show {
+  display: flex;
+}
+
+.char-creator {
+  background: rgba(15, 25, 50, 0.95);
+  padding: 20px;
+  border-radius: 20px;
+  border: 2px solid rgba(76, 201, 240, 0.4);
+  box-shadow: 0 0 60px rgba(76, 201, 240, 0.2);
+  width: 100%;
+  max-width: 1000px;
+  max-height: 96vh;
+  overflow-y: auto;
+  backdrop-filter: blur(20px);
+  display: grid;
+  grid-template-columns: 220px 1fr;
+  gap: 20px;
+}
+
+.char-creator h1 {
+  grid-column: 1 / -1;
+  text-align: center;
+  font-size: 22px;
+  background: linear-gradient(90deg, #4cc9f0, #a29bfe);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  letter-spacing: 4px;
+  margin-bottom: 5px;
+}
+
+.preview-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  grid-row: 2 / 4;
+}
+
+.char-preview {
+  width: 200px;
+  height: 270px;
+  background: linear-gradient(145deg, #0f1933, #1a2342);
+  border-radius: 15px;
+  border: 2px solid rgba(76, 201, 240, 0.5);
+  overflow: hidden;
+  box-shadow: 0 0 30px rgba(76, 201, 240, 0.3) inset;
+}
+
+.options-section {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.option-group h3 {
+  font-size: 11px;
+  margin-bottom: 6px;
+  color: #4cc9f0;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+.char-options {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.char-option {
+  width: 40px;
+  height: 40px;
+  border: 2px solid #2a3556;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.char-option.selected {
+  border-color: #4cc9f0;
+  box-shadow: 0 0 15px rgba(76, 201, 240, 0.7);
+  transform: scale(1.1);
+}
+
+/* Cilt Renkleri */
+.skin1 { background: linear-gradient(145deg, #8d5524, #6d4219); }
+.skin2 { background: linear-gradient(145deg, #c68642, #a06a2e); }
+.skin3 { background: linear-gradient(145deg, #e0ac69, #c08c4e); }
+.skin4 { background: linear-gradient(145deg, #ffdbac, #f1c27d); }
+.skin5 { background: linear-gradient(145deg, #5a3a1a, #3d2510); }
+.skin6 { background: linear-gradient(145deg, #6b4423, #4a2f18); }
+.skin7 { background: linear-gradient(145deg, #f1c27d, #d9a55c); }
+.skin8 { background: linear-gradient(145deg, #edb98a, #c99868); }
+.skin9 { background: linear-gradient(145deg, #d08b5b, #a86e42); }
+.skin10 { background: linear-gradient(145deg, #ae5d29, #8a4820); }
+.skin11 { background: linear-gradient(145deg, #694d3d, #4a362b); }
+.skin12 { background: linear-gradient(145deg, #ffdbac, #edb98a); }
+
+/* Saç Renkleri */
+.hair1 { background: linear-gradient(145deg, #1a1a1a, #000); }
+.hair2 { background: linear-gradient(145deg, #654321, #3d2814); }
+.hair3 { background: linear-gradient(145deg, #8b4513, #5a2b0c); }
+.hair4 { background: linear-gradient(145deg, #d4a574, #a87c50); }
+.hair5 { background: linear-gradient(145deg, #c9c9c9, #888); }
+.hair6 { background: linear-gradient(145deg, #ffdb58, #d4a017); }
+.hair7 { background: linear-gradient(145deg, #8b0000, #5a0000); }
+.hair8 { background: linear-gradient(145deg, #4b0082, #2d0050); }
+.hair9 { background: linear-gradient(145deg, #00008b, #000050); }
+.hair10 { background: linear-gradient(145deg, #006400, #004000); }
+.hair11 { background: linear-gradient(145deg, #ff69b4, #d63384); }
+.hair12 { background: linear-gradient(145deg, #f5f5dc, #c0c0a0); }
+
+/* Kıyafet Renkleri */
+.shirt1 { background: linear-gradient(145deg, #3498db, #217dbb); }
+.shirt2 { background: linear-gradient(145deg, #e74c3c, #c0392b); }
+.shirt3 { background: linear-gradient(145deg, #2ecc71, #27ae60); }
+.shirt4 { background: linear-gradient(145deg, #9b59b6, #8e44ad); }
+.shirt5 { background: linear-gradient(145deg, #f39c12, #d68910); }
+.shirt6 { background: linear-gradient(145deg, #1abc9c, #16a085); }
+.shirt7 { background: linear-gradient(145deg, #34495e, #2c3e50); }
+.shirt8 { background: linear-gradient(145deg, #e91e63, #c2185b); }
+.shirt9 { background: linear-gradient(145deg, #ff5722, #d84315); }
+.shirt10 { background: linear-gradient(145deg, #673ab7, #512da8); }
+.shirt11 { background: linear-gradient(145deg, #00bcd4, #0097a7); }
+.shirt12 { background: linear-gradient(145deg, #795548, #5d4037); }
+
+/* ==================== SINIF SEÇİMİ ==================== */
+.class-options {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 8px;
+}
+
+.class-card {
+  background: rgba(15, 25, 50, 0.8);
+  border: 2px solid #2a3556;
+  border-radius: 10px;
+  padding: 10px;
+  cursor: pointer;
+  transition: all 0.3s;
+  text-align: center;
+}
+
+.class-card.selected {
+  border-color: #4cc9f0;
+  box-shadow: 0 0 20px rgba(76, 201, 240, 0.4);
+  transform: translateY(-2px);
+}
+
+.class-card .icon {
+  font-size: 24px;
+  display: block;
+  margin-bottom: 4px;
+}
+
+.class-card .name {
+  font-size: 11px;
+  font-weight: bold;
+  color: #4cc9f0;
+  letter-spacing: 1px;
+}
+
+.class-card .desc {
+  font-size: 9px;
+  color: #8892b0;
+  margin-top: 3px;
+}
+
+/* ==================== KARAKTER BUTONLARI ==================== */
+.char-creator .buttons {
+  grid-column: 1 / -1;
+  display: flex;
+  gap: 10px;
+  justify-content: center;
+  margin-top: 5px;
+}
+
+/* ==================== RESPONSIVE ==================== */
+@media (max-width: 768px) {
+  .game-logo {
+    font-size: 50px;
+    letter-spacing: 8px;
+  }
+  .game-subtitle {
+    font-size: 10px;
+    letter-spacing: 8px;
+    margin-bottom: 25px;
+  }
+  .menu-buttons {
+    width: 280px;
+  }
+  .menu-btn {
+    padding: 14px 20px;
+    font-size: 13px;
+  }
+  .char-creator {
+    grid-template-columns: 1fr;
+    padding: 15px;
+  }
+  .preview-section {
+    grid-row: auto;
+  }
+  .char-preview {
+    width: 150px;
+    height: 200px;
+  }
+  .tut-card {
+    max-width: 90vw;
+    padding: 18px;
+  }
+  .menu-corner {
+    font-size: 40px;
+  }
+}
+
+@media (max-height: 500px) {
+  .game-logo {
+    font-size: 40px;
+  }
+  .game-subtitle {
+    margin-bottom: 15px;
+  }
+  .menu-btn {
+    padding: 10px 16px;
+    font-size: 12px;
+  }
+  .menu-corner {
+    font-size: 30px;
+  }
+}

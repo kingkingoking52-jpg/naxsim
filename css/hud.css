@@ -1,0 +1,523 @@
+/* ==========================================
+   ORION FOREST v6.0 - HUD CSS
+   Oyun içi arayüz (can, açlık, harita, vs.)
+   ========================================== */
+
+/* ==================== OYUN KONTEYNERİ ==================== */
+#gameContainer {
+  display: none;
+  width: 100vw;
+  height: 100vh;
+  position: relative;
+  background: #0a0e1a;
+  overflow: hidden;
+}
+
+#gameContainer.show {
+  display: block;
+}
+
+#gameCanvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  touch-action: none;
+  image-rendering: optimizeSpeed;
+}
+
+#weatherCanvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 5;
+}
+
+/* ==================== SOL ÜST: STAT BARI ==================== */
+#hudTopLeft {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  z-index: 10;
+  pointer-events: none;
+}
+
+.stat-bar {
+  width: 135px;
+  height: 16px;
+  background: rgba(0, 0, 0, 0.7);
+  border-radius: 8px;
+  overflow: hidden;
+  position: relative;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(5px);
+}
+
+.bar-fill {
+  height: 100%;
+  transition: width 0.4s ease;
+  border-radius: 8px;
+  position: relative;
+}
+
+.bar-fill::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.3), transparent);
+  border-radius: 8px;
+}
+
+#healthBar { background: linear-gradient(90deg, #ff0844, #ff4d6d); }
+#hungerBar { background: linear-gradient(90deg, #ff8800, #ffb700); }
+#thirstBar { background: linear-gradient(90deg, #0099ff, #4cc9f0); }
+#staminaBar { background: linear-gradient(90deg, #00d68f, #4cff9e); }
+#tempBar { background: linear-gradient(90deg, #ff6b6b, #4cc9f0); }
+
+.bar-label {
+  position: absolute;
+  width: 100%;
+  text-align: center;
+  line-height: 16px;
+  font-size: 9px;
+  font-weight: 700;
+  text-shadow: 1px 1px 2px #000, -1px -1px 2px #000;
+  letter-spacing: 0.5px;
+}
+
+/* ==================== SAĞ ÜST: BİLGİ ==================== */
+#hudTopRight {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  z-index: 10;
+  pointer-events: none;
+  text-align: right;
+  align-items: flex-end;
+}
+
+.info-box {
+  background: rgba(0, 0, 0, 0.7);
+  padding: 5px 10px;
+  border-radius: 8px;
+  border: 1px solid rgba(76, 201, 240, 0.35);
+  font-size: 11px;
+  font-weight: 700;
+  backdrop-filter: blur(5px);
+  letter-spacing: 0.5px;
+}
+
+/* ==================== ÜST ORTA: BİYOM ==================== */
+#biomeIndicator {
+  position: absolute;
+  top: 8px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(0, 0, 0, 0.7);
+  padding: 5px 15px;
+  border-radius: 15px;
+  border: 1px solid rgba(76, 201, 240, 0.4);
+  font-size: 11px;
+  font-weight: 700;
+  z-index: 10;
+  pointer-events: none;
+  letter-spacing: 1px;
+  backdrop-filter: blur(5px);
+}
+
+/* ==================== MİNİ HARİTA ==================== */
+#miniMap {
+  position: absolute;
+  top: 110px;
+  right: 8px;
+  width: 130px;
+  height: 130px;
+  background: rgba(0, 0, 0, 0.75);
+  border-radius: 10px;
+  border: 2px solid rgba(76, 201, 240, 0.5);
+  z-index: 9;
+  overflow: hidden;
+  backdrop-filter: blur(5px);
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+#miniMap:hover {
+  border-color: #4cc9f0;
+  box-shadow: 0 0 25px rgba(76, 201, 240, 0.5);
+}
+
+#miniMap.big {
+  width: 260px;
+  height: 260px;
+}
+
+/* ==================== MESAJ LOG ==================== */
+#messageLog {
+  position: absolute;
+  bottom: 8px;
+  left: 50%;
+  transform: translateX(-50%);
+  max-width: 380px;
+  background: rgba(0, 0, 0, 0.75);
+  padding: 6px 14px;
+  border-radius: 10px;
+  z-index: 5;
+  pointer-events: none;
+  text-align: center;
+  backdrop-filter: blur(5px);
+  border: 1px solid rgba(76, 201, 240, 0.2);
+  transition: opacity 0.5s;
+}
+
+#messageLog p {
+  font-size: 11px;
+  color: #ccc;
+  margin: 2px 0;
+  animation: msgFadeIn 0.3s;
+  font-weight: 500;
+}
+
+@keyframes msgFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ==================== ETKİLEŞİM İPUCU ==================== */
+#interactHint {
+  position: absolute;
+  bottom: 50%;
+  left: 50%;
+  transform: translate(-50%, 120px);
+  background: rgba(76, 201, 240, 0.95);
+  color: #0a0e1a;
+  padding: 8px 18px;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 800;
+  display: none;
+  z-index: 15;
+  pointer-events: none;
+  letter-spacing: 1px;
+  animation: hintPulse 1.5s infinite;
+  box-shadow: 0 0 25px rgba(76, 201, 240, 0.7);
+}
+
+@keyframes hintPulse {
+  0%, 100% {
+    transform: translate(-50%, 120px) scale(1);
+  }
+  50% {
+    transform: translate(-50%, 120px) scale(1.05);
+  }
+}
+
+/* ==================== HASAR EFEKTİ ==================== */
+#damageOverlay {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle, transparent 30%, rgba(255, 0, 0, 0.5));
+  pointer-events: none;
+  opacity: 0;
+  z-index: 50;
+  transition: opacity 0.3s;
+}
+
+#damageOverlay.active {
+  opacity: 1;
+}
+
+/* ==================== KLAVYE İPUÇLARI ==================== */
+#keyboardHints {
+  position: absolute;
+  bottom: 8px;
+  left: 8px;
+  background: rgba(0, 0, 0, 0.6);
+  padding: 6px 12px;
+  border-radius: 8px;
+  font-size: 10px;
+  color: #8892b0;
+  z-index: 5;
+  pointer-events: none;
+  border: 1px solid rgba(76, 201, 240, 0.15);
+  line-height: 1.5;
+}
+
+@media (max-width: 1024px) and (hover: none) {
+  #keyboardHints {
+    display: none;
+  }
+}
+
+/* ==================== MOBİL KONTROLLER ==================== */
+#mobileControls {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 20;
+  display: none;
+}
+
+#mobileControls.active {
+  display: block;
+}
+
+/* Joystick */
+.joystick-zone {
+  position: absolute;
+  bottom: 15px;
+  left: 15px;
+  width: 130px;
+  height: 130px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(76, 201, 240, 0.08), rgba(76, 201, 240, 0.15));
+  border: 2px solid rgba(76, 201, 240, 0.35);
+  pointer-events: auto;
+  touch-action: none;
+  backdrop-filter: blur(5px);
+}
+
+.joystick-knob {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 55px;
+  height: 55px;
+  background: radial-gradient(circle at 30% 30%, #4cc9f0, #4361ee);
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  box-shadow: 0 0 20px rgba(76, 201, 240, 0.7);
+  pointer-events: none;
+  transition: transform 0.05s linear;
+}
+
+/* Aksiyon Butonları */
+#actionButtons {
+  position: absolute;
+  bottom: 15px;
+  right: 15px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  pointer-events: auto;
+}
+
+.action-btn {
+  width: 62px;
+  height: 62px;
+  border-radius: 50%;
+  background: rgba(15, 25, 50, 0.85);
+  border: 2px solid rgba(76, 201, 240, 0.5);
+  color: #fff;
+  font-size: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  touch-action: none;
+  font-weight: 800;
+  transition: all 0.1s;
+  backdrop-filter: blur(5px);
+  font-family: inherit;
+}
+
+.action-btn small {
+  font-size: 7px;
+  opacity: 0.85;
+  margin-top: 1px;
+  letter-spacing: 0.5px;
+}
+
+.action-btn:active,
+.action-btn.pressed {
+  transform: scale(0.88);
+  background: rgba(76, 201, 240, 0.6);
+  border-color: #4cc9f0;
+  box-shadow: 0 0 25px rgba(76, 201, 240, 0.8);
+}
+
+#btnCollect { border-color: rgba(0, 214, 143, 0.7); }
+#btnCollect:active {
+  background: rgba(0, 214, 143, 0.5);
+  border-color: #00d68f;
+  box-shadow: 0 0 25px rgba(0, 214, 143, 0.8);
+}
+
+#btnAttack { border-color: rgba(255, 8, 68, 0.7); }
+#btnAttack:active {
+  background: rgba(255, 8, 68, 0.5);
+  border-color: #ff0844;
+  box-shadow: 0 0 25px rgba(255, 8, 68, 0.8);
+}
+
+#btnEat { border-color: rgba(233, 30, 99, 0.7); }
+#btnEat:active {
+  background: rgba(233, 30, 99, 0.5);
+  border-color: #e91e63;
+  box-shadow: 0 0 25px rgba(233, 30, 99, 0.8);
+}
+
+#btnBuild { border-color: rgba(255, 152, 0, 0.7); }
+#btnBuild:active {
+  background: rgba(255, 152, 0, 0.5);
+  border-color: #ff9800;
+  box-shadow: 0 0 25px rgba(255, 152, 0, 0.8);
+}
+
+/* Koş Butonu */
+#btnRun {
+  position: absolute;
+  bottom: 90px;
+  right: 160px;
+  width: 55px !important;
+  height: 55px !important;
+  border-color: rgba(255, 152, 0, 0.7) !important;
+}
+
+#btnRun:active {
+  background: rgba(255, 152, 0, 0.5) !important;
+  border-color: #ff9800 !important;
+  box-shadow: 0 0 25px rgba(255, 152, 0, 0.8) !important;
+}
+
+/* Envanter Butonu */
+#btnInventory {
+  position: absolute;
+  bottom: 90px;
+  left: 160px;
+  width: 55px !important;
+  height: 55px !important;
+  border-color: rgba(76, 201, 240, 0.7) !important;
+}
+
+#btnInventory:active {
+  background: rgba(76, 201, 240, 0.5) !important;
+  border-color: #4cc9f0 !important;
+  box-shadow: 0 0 25px rgba(76, 201, 240, 0.8) !important;
+}
+
+/* ==================== ÖLÜM EKRANI ==================== */
+#deathScreen {
+  position: absolute;
+  inset: 0;
+  background: rgba(10, 5, 15, 0.95);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  z-index: 500;
+  backdrop-filter: blur(10px);
+  padding: 20px;
+  text-align: center;
+}
+
+#deathScreen.show {
+  display: flex;
+}
+
+#deathScreen h1 {
+  font-size: 60px;
+  color: #ff0844;
+  text-shadow: 0 0 40px rgba(255, 8, 68, 0.8);
+  letter-spacing: 8px;
+  margin-bottom: 15px;
+  animation: deathPulse 2s infinite;
+}
+
+@keyframes deathPulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+}
+
+#deathScreen p {
+  font-size: 14px;
+  color: #8892b0;
+  margin-bottom: 30px;
+  letter-spacing: 2px;
+}
+
+/* ==================== RESPONSIVE ==================== */
+@media (max-width: 768px) {
+  .stat-bar {
+    width: 110px;
+    height: 14px;
+  }
+  .bar-label {
+    line-height: 14px;
+    font-size: 8px;
+  }
+  .info-box {
+    font-size: 10px;
+    padding: 3px 8px;
+  }
+  #miniMap {
+    width: 100px;
+    height: 100px;
+  }
+  .joystick-zone {
+    width: 110px;
+    height: 110px;
+  }
+  .joystick-knob {
+    width: 45px;
+    height: 45px;
+  }
+  .action-btn {
+    width: 55px;
+    height: 55px;
+    font-size: 16px;
+  }
+  .action-btn small {
+    font-size: 6px;
+  }
+}
+
+@media (max-height: 500px) {
+  .stat-bar {
+    width: 110px;
+    height: 14px;
+  }
+  .bar-label {
+    line-height: 14px;
+    font-size: 8px;
+  }
+  .joystick-zone {
+    width: 110px;
+    height: 110px;
+  }
+  .joystick-knob {
+    width: 45px;
+    height: 45px;
+  }
+  .action-btn {
+    width: 52px;
+    height: 52px;
+    font-size: 16px;
+  }
+  .action-btn small {
+    font-size: 6px;
+  }
+  .info-box {
+    font-size: 10px;
+    padding: 3px 8px;
+  }
+  #miniMap {
+    width: 90px;
+    height: 90px;
+  }
+}

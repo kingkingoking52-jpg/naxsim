@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no,viewport-fit=cover">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="theme-color" content="#0a0e1a">
+<title>ORION FOREST v6.7</title>
+<link rel="stylesheet" href="css/main.css">
+<link rel="stylesheet" href="css/menu.css">
+<link rel="stylesheet" href="css/hud.css">
+<link rel="stylesheet" href="css/panels.css">
+<link rel="stylesheet" href="css/ui.css">
+<link rel="stylesheet" href="css/tutorial.css">
+<link rel="stylesheet" href="css/npc.css">
+</head>
+<body>
+
+<div id="customAlert">
+<span class="alert-icon" id="alertIcon">ℹ️</span>
+<div class="alert-title" id="alertTitle">BİLGİ</div>
+<div class="alert-message" id="alertMessage"></div>
+<div class="alert-buttons" id="alertButtons"></div>
+</div>
+
+<div id="toastContainer"></div>
+
+<div id="loadingScreen">
+<canvas class="loading-bg-canvas" id="loadingBgCanvas"></canvas>
+<div class="loading-content">
+<div class="loading-tree">🌲</div>
+<div class="loading-logo">ORION</div>
+<div class="loading-subtitle">FOREST SURVIVAL</div>
+<div class="loading-bar-wrapper"><div class="loading-progress" id="loadingProgress"></div></div>
+<div class="loading-percent" id="loadingPercent">0%</div>
+<div class="loading-text" id="loadingText">YÜKLENİYOR...</div>
+<div class="loading-tips" id="loadingTip">İpucu: Gece olmadan önce kamp ateşi yak!</div>
+</div>
+</div>
+
+<div id="tutorialOverlay">
+<div class="tut-bg"></div>
+<div class="tut-spotlight" id="tutSpotlight" style="display:none"></div>
+<div class="tut-arrow" id="tutArrow" style="display:none">⬇️</div>
+<div class="tut-card" id="tutCard"></div>
+</div>
+
+<div id="escMenu">
+<div class="esc-content">
+<div class="esc-title">DURAKLATILDI</div>
+<div class="esc-subtitle">OYUN MENÜSÜ</div>
+<div class="esc-info">
+<div class="esc-info-row"><span>👤 Oyuncu</span><span id="escName">Oyuncu</span></div>
+<div class="esc-info-row"><span>⭐ Seviye</span><span id="escLevel">1</span></div>
+<div class="esc-info-row"><span>📅 Gün</span><span id="escDay">1</span></div>
+<div class="esc-info-row"><span>⚔️ Av</span><span id="escKills">0</span></div>
+<div class="esc-info-row"><span>🌲 Odun</span><span id="escWood">0</span></div>
+<div class="esc-info-row"><span>🔥 Ateş</span><span id="escFire">Yok</span></div>
+</div>
+<button class="esc-btn" id="escResume"><span class="esc-icon">▶️</span> DEVAM ET</button>
+<button class="esc-btn" id="escSave"><span class="esc-icon">💾</span> KAYDET</button>
+<button class="esc-btn" id="escSettings"><span class="esc-icon">⚙️</span> AYARLAR</button>
+<button class="esc-btn" id="escTutorial"><span class="esc-icon">📖</span> TUTORIAL</button>
+<button class="esc-btn danger" id="escMainMenu"><span class="esc-icon">🏠</span> ANA MENÜ</button>
+</div>
+</div>
+
+<div id="mainMenu">
+<canvas class="menu-bg-canvas" id="menuBgCanvas"></canvas>
+<div class="menu-corner tl">🌲</div>
+<div class="menu-corner tr">🏕️</div>
+<div class="menu-corner bl">🔥</div>
+<div class="menu-corner br">🌙</div>
+<div class="menu-content">
+<div class="game-logo">ORION</div>
+<div class="game-subtitle">FOREST SURVIVAL</div>
+<div class="menu-buttons">
+<button class="menu-btn primary" id="btnNewGame"><span class="btn-icon">🌲</span> YENİ OYUN</button>
+<button class="menu-btn" id="btnContinue"><span class="btn-icon">💾</span> DEVAM ET</button>
+<button class="menu-btn" id="btnTutorial"><span class="btn-icon">📖</span> NASIL OYNANIR</button>
+<button class="menu-btn" id="btnSettings"><span class="btn-icon">⚙️</span> AYARLAR</button>
+<button class="menu-btn" id="btnAchievements"><span class="btn-icon">🏆</span> BAŞARIMLAR</button>
+<button class="menu-btn" id="btnCredits"><span class="btn-icon">ℹ️</span> HAKKINDA</button>
+<button class="menu-btn danger" id="btnQuit"><span class="btn-icon">🚪</span> ÇIKIŞ</button>
+</div>
+</div>
+<div class="menu-stats" id="menuStats"></div>
+<div class="menu-version">v6.6</div>
+<div class="menu-footer">© 2025 ORION STUDIOS</div>
+</div>
+
+<div class="modal" id="settingsModal">
+<div class="modal-content">
+<button class="modal-close" data-close="settingsModal">✕</button>
+<h2>⚙️ AYARLAR</h2>
+<div class="setting-tabs">
+<button class="setting-tab active" data-tab="audio">🔊 SES</button>
+<button class="setting-tab" data-tab="game">🎮 OYUN</button>
+<button class="setting-tab" data-tab="graphics">🎨 GRAFİK</button>
+<button class="setting-tab" data-tab="data">💾 VERİ</button>
+</div>
+<div class="setting-panel active" data-panel="audio">
+<div class="setting-group"><h3>🔊 Ses</h3>
+<div class="setting-row"><label>Ana Ses</label><input type="range" class="slider" id="masterVolume" min="0" max="100" value="70"><span class="value" id="masterVolumeVal">70</span></div>
+<div class="setting-row"><label>Müzik</label><input type="range" class="slider" id="musicVolume" min="0" max="100" value="50"><span class="value" id="musicVolumeVal">50</span></div>
+<div class="setting-row"><label>SFX</label><input type="range" class="slider" id="sfxVolume" min="0" max="100" value="70"><span class="value" id="sfxVolumeVal">70</span></div>
+</div>
+</div>
+<div class="setting-panel" data-panel="game">
+<div class="setting-group"><h3>🎮 Oynanış</h3>
+<div class="setting-row"><label>Zorluk</label><select class="input-field" id="difficultySelect" style="width:130px;padding:5px"><option value="easy">Kolay</option><option value="normal" selected>Normal</option><option value="hard">Zor</option></select></div>
+<div class="setting-row"><label>Zaman</label><select class="input-field" id="timeSpeed" style="width:130px;padding:5px"><option value="slow">Yavaş</option><option value="normal" selected>Normal</option><option value="fast">Hızlı</option></select></div>
+<div class="setting-row"><label>Sarsıntı</label><div class="toggle active" id="toggleShake"></div></div>
+<div class="setting-row"><label>Oto Kayıt</label><div class="toggle active" id="toggleAutoSave"></div></div>
+</div>
+</div>
+<div class="setting-panel" data-panel="graphics">
+<div class="setting-group"><h3>🎨 Görsel</h3>
+<div class="setting-row"><label>Kalite</label><select class="input-field" id="qualitySelect" style="width:130px;padding:5px"><option value="low">Düşük</option><option value="medium">Orta</option><option value="high" selected>Yüksek</option></select></div>
+<div class="setting-row"><label>Partikül</label><div class="toggle active" id="toggleParticles"></div></div>
+<div class="setting-row"><label>Kan</label><div class="toggle active" id="toggleBlood"></div></div>
+<div class="setting-row"><label>Hava</label><div class="toggle active" id="toggleWeatherEffects"></div></div>
+</div>
+</div>
+<div class="setting-panel" data-panel="data">
+<div class="setting-group"><h3>💾 Kayıt</h3>
+<div class="setting-row"><label>Kayıtlı</label><span class="value" id="saveInfo">Yok</span></div>
+<div class="setting-row"><label>Seed</label><span class="value" id="seedInfo">-</span></div>
+<div style="display:flex;gap:8px;margin-top:10px;flex-wrap:wrap">
+<button class="setting-btn" id="btnExportSave">📤 DIŞA</button>
+<button class="setting-btn" id="btnImportSave">📥 İÇE</button>
+<button class="setting-btn danger" id="btnClearSave">🗑️ SİL</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+<div class="modal" id="creditsModal">
+<div class="modal-content">
+<button class="modal-close" data-close="creditsModal">✕</button>
+<h2>ℹ️ HAKKINDA</h2>
+<div style="text-align:center;padding:10px 0">
+<div style="font-size:60px;margin-bottom:10px">🌲</div>
+<h3 style="color:#4cc9f0;font-size:18px;letter-spacing:4px;margin-bottom:15px">ORION FOREST v6.6</h3>
+<p style="color:#ccc;font-size:13px;line-height:1.8">
+<strong style="color:#4cc9f0">Geliştirici:</strong> ORION STUDIOS<br>
+<strong style="color:#4cc9f0">Motor:</strong> HTML5 Canvas<br>
+<strong style="color:#4cc9f0">Sesler:</strong> Web Audio API<br>
+<strong style="color:#4cc9f0">Kayıt:</strong> LocalStorage + SHA-256
+</p>
+</div>
+</div>
+</div>
+
+<div class="modal" id="achievementsModal">
+<div class="modal-content">
+<button class="modal-close" data-close="achievementsModal">✕</button>
+<h2>🏆 BAŞARIMLAR</h2>
+<div id="achievementsList" style="padding:10px 0"></div>
+</div>
+</div>
+
+<div class="modal" id="npcDialogModal">
+<div class="modal-content" style="max-width:650px">
+<button class="modal-close" data-close="npcDialogModal">✕</button>
+<div id="npcDialogContent"></div>
+</div>
+</div>
+
+<div id="characterCreation">
+<div class="char-creator">
+<h1>🎮 KARAKTER OLUŞTUR</h1>
+<div class="preview-section">
+<div class="char-preview" id="charPreview"></div>
+<input type="text" id="charName" class="input-field" placeholder="Karakter adı..." maxlength="15">
+</div>
+<div class="options-section">
+<div class="option-group"><h3>🎨 Cilt (12)</h3><div class="char-options" id="skinOptions"></div></div>
+<div class="option-group"><h3>💇 Saç (12)</h3><div class="char-options" id="hairOptions"></div></div>
+<div class="option-group"><h3>👕 Kıyafet (12)</h3><div class="char-options" id="shirtOptions"></div></div>
+<div class="option-group"><h3>⚔️ Sınıf</h3>
+<div class="class-options">
+<div class="class-card selected" data-class="survivor"><span class="icon">👤</span><div class="name">SURVIVOR</div><div class="desc">Dengeli</div></div>
+<div class="class-card" data-class="hunter"><span class="icon">🏹</span><div class="name">HUNTER</div><div class="desc">+Hız</div></div>
+<div class="class-card" data-class="builder"><span class="icon">🏗️</span><div class="name">BUILDER</div><div class="desc">+Can</div></div>
+<div class="class-card" data-class="scout"><span class="icon">🔍</span><div class="name">SCOUT</div><div class="desc">+Stamina</div></div>
+<div class="class-card" data-class="farmer"><span class="icon">🌾</span><div class="name">FARMER</div><div class="desc">+Tarım</div></div>
+<div class="class-card" data-class="warrior"><span class="icon">⚔️</span><div class="name">WARRIOR</div><div class="desc">+Hasar</div></div>
+</div>
+</div>
+</div>
+<div class="buttons">
+<button class="btn-modern secondary" id="btnBackToMenu">← GERİ</button>
+<button class="btn-modern" id="startGameBtn">▶ BAŞLA</button>
+</div>
+</div>
+</div>
+
+<div id="gameContainer">
+<canvas id="gameCanvas"></canvas>
+<canvas id="weatherCanvas"></canvas>
+<div id="hudTopLeft">
+<div class="stat-bar"><div class="bar-fill" id="healthBar" style="width:100%"></div><div class="bar-label">❤️ <span id="healthText">100</span></div></div>
+<div class="stat-bar"><div class="bar-fill" id="hungerBar" style="width:100%"></div><div class="bar-label">🍗 <span id="hungerText">100</span></div></div>
+<div class="stat-bar"><div class="bar-fill" id="thirstBar" style="width:100%"></div><div class="bar-label">💧 <span id="thirstText">100</span></div></div>
+<div class="stat-bar"><div class="bar-fill" id="staminaBar" style="width:100%"></div><div class="bar-label">⚡ <span id="staminaText">100</span></div></div>
+<div class="stat-bar"><div class="bar-fill" id="tempBar" style="width:60%"></div><div class="bar-label">🌡️ <span id="tempText">Normal</span></div></div>
+</div>
+<div id="hudTopRight">
+<div class="info-box" id="timeDisplay">⏰ 08:00</div>
+<div class="info-box" id="weatherDisplay">☀️ Güneşli</div>
+<div class="info-box" id="dayDisplay">📅 Gün 1</div>
+<div class="info-box" id="seedDisplay">🌱 Seed: -</div>
+</div>
+<div id="biomeIndicator">🌲 Orman</div>
+<div id="miniMap"><canvas id="miniMapCanvas" width="260" height="260" style="width:100%;height:100%"></canvas></div>
+<div id="messageLog"></div>
+<div id="interactHint">E - ETKİLEŞİM</div>
+<div id="damageOverlay"></div>
+<div id="keyboardHints"><strong>🎮 PC:</strong> WASD | Ctrl | E | F | R | Q | B | I | F1 | M | P | Sağ Tık | ESC</div>
+
+<div id="mobileControls">
+<div class="joystick-zone" id="joystickZone"><div class="joystick-knob" id="joystickKnob"></div></div>
+<div id="actionButtons">
+<div class="action-btn" id="btnCollect">E<small>TOPLA</small></div>
+<div class="action-btn" id="btnAttack">⚔️<small>VUR</small></div>
+<div class="action-btn" id="btnEat">🍎<small>YE</small></div>
+<div class="action-btn" id="btnBuild">🔨<small>İNŞA</small></div>
+</div>
+<div class="action-btn" id="btnRun" style="position:absolute;bottom:90px;right:160px;width:55px;height:55px">🏃<small>KOŞ</small></div>
+<div class="action-btn" id="btnInventory" style="position:absolute;bottom:90px;left:160px;width:55px;height:55px">🎒<small>ÇANTA</small></div>
+</div>
+
+<div id="inventoryPanel">
+<div class="inv-header">
+<h2>🎒 ENVANTER</h2>
+<div class="inv-tabs">
+<button class="inv-tab active" data-cat="all">HEPSİ</button>
+<button class="inv-tab" data-cat="resource">KAYNAK</button>
+<button class="inv-tab" data-cat="food">YEMEK</button>
+<button class="inv-tab" data-cat="tool">ALET</button>
+<button class="inv-tab" data-cat="seed">TOHUM</button>
+</div>
+</div>
+<div class="inv-grid" id="invGrid"></div>
+<div id="invItemInfo"></div>
+<button class="close-panel" data-close-panel="inventoryPanel">✕ KAPAT</button>
+</div>
+
+<div id="buildPanel">
+<h2>🏗️ İNŞA SİSTEMİ</h2>
+<div class="build-section-title">🧱 Temel Yapılar</div>
+<div id="buildGrid"></div>
+<button class="close-panel" data-close-panel="buildPanel">✕ KAPAT</button>
+</div>
+
+<div id="craftPanel">
+<h2>🔨 ZANAAT</h2>
+<div class="craft-section-title">🛠️ Araçlar</div>
+<div id="craftList"></div>
+<button class="close-panel" data-close-panel="craftPanel">✕ KAPAT</button>
+</div>
+
+<div id="farmPanel">
+<h2>🌾 TARIM SİSTEMİ</h2>
+<div class="craft-section-title">🌱 Tohumlar</div>
+<div id="seedList"></div>
+<div class="craft-section-title">🌾 Hasat</div>
+<div id="cropList"></div>
+<button class="close-panel" data-close-panel="farmPanel">✕ KAPAT</button>
+</div>
+
+<div id="petPanel">
+<h2>🐾 EVCİL HAYVAN</h2>
+<div id="petList"></div>
+<button class="close-panel" data-close-panel="petPanel">✕ KAPAT</button>
+</div>
+
+<div id="deathScreen">
+<h1>ÖLDÜN</h1>
+<p id="deathReason">Hayatını kaybettin</p>
+<button class="btn-modern" id="btnRespawn">🔄 YENİDEN DOĞ</button>
+</div>
+</div>
+
+<script src="js/core/utils.js"></script>
+<script src="js/core/audio.js"></script>
+<script src="js/core/save.js"></script>
+<script src="js/core/seed.js"></script>
+<script src="js/core/input.js"></script>
+<script src="js/systems/achievements.js"></script>
+<script src="js/systems/inventory.js"></script>
+<script src="js/systems/crafting.js"></script>
+<script src="js/systems/building.js"></script>
+<script src="js/systems/farming.js"></script>
+<script src="js/systems/weather.js"></script>
+<script src="js/systems/structures.js"></script>
+<script src="js/systems/npc_camps.js"></script>
+<script src="js/systems/animals_v2.js"></script>
+<script src="js/world/decorations.js"></script>
+<script src="js/systems/fishing.js"></script>
+<script src="js/systems/pets.js"></script>
+<script src="js/systems/npc.js"></script>
+<script src="js/ui/tutorial.js"></script>
+<script src="js/main/core.js"></script>
+<script src="js/main/gameplay.js"></script>
+<script src="js/main/loop.js"></script>
+</body>
+<script src="js/render/world.js"></script>
+<script src="js/render/entities.js"></script>
+<script src="js/render/ui.js"></script>
+</body>
+</html>

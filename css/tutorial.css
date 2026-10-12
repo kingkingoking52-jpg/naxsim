@@ -1,0 +1,274 @@
+/* ==========================================
+   ORION FOREST v6.0 - TUTORIAL CSS (FIXED)
+   ========================================== */
+
+/* ==================== OVERLAY ==================== */
+#tutorialOverlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9800;
+  pointer-events: none;
+  display: none;
+}
+
+#tutorialOverlay.show {
+  display: block;
+  pointer-events: auto;
+}
+
+.tut-bg {
+  position: absolute;
+  inset: 0;
+  background: rgba(5, 8, 15, 0.85);
+  backdrop-filter: blur(8px);
+  animation: tutBgIn 0.4s;
+}
+
+@keyframes tutBgIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* ==================== SPOTLIGHT ==================== */
+.tut-spotlight {
+  position: fixed;
+  border: 3px solid #4cc9f0;
+  border-radius: 16px;
+  box-shadow:
+    0 0 0 9999px rgba(5, 8, 15, 0.75),
+    0 0 40px rgba(76, 201, 240, 0.9),
+    inset 0 0 40px rgba(76, 201, 240, 0.3);
+  pointer-events: none;
+  animation: tutSpot 0.5s;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: 9801;
+}
+
+@keyframes tutSpot {
+  from {
+    opacity: 0;
+    transform: scale(1.1);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* ==================== KART ==================== */
+.tut-card {
+  position: fixed;
+  background: linear-gradient(145deg, rgba(15, 25, 50, 0.98), rgba(26, 35, 66, 0.98));
+  border: 2px solid #4cc9f0;
+  border-radius: 20px;
+  padding: 25px;
+  box-shadow: 0 0 60px rgba(76, 201, 240, 0.6);
+  animation: tutCardIn 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  pointer-events: auto;
+  z-index: 9802;
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+@keyframes tutCardIn {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+}
+
+/* ==================== KART BAŞLIK ==================== */
+.tut-card-header {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 16px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid rgba(76, 201, 240, 0.3);
+}
+
+.tut-card-icon {
+  font-size: 44px;
+  filter: drop-shadow(0 0 20px rgba(76, 201, 240, 0.7));
+  animation: iconBounce 2s ease-in-out infinite;
+}
+
+@keyframes iconBounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-5px); }
+}
+
+.tut-card-title {
+  color: #4cc9f0;
+  font-size: 16px;
+  font-weight: 800;
+  letter-spacing: 2px;
+  line-height: 1.2;
+  margin-bottom: 4px;
+}
+
+.tut-card-step {
+  color: #8892b0;
+  font-size: 10px;
+  letter-spacing: 2px;
+  font-weight: 600;
+}
+
+/* ==================== KART İÇERİK ==================== */
+.tut-card-text {
+  color: #ccc;
+  font-size: 14px;
+  line-height: 1.8;
+  margin-bottom: 18px;
+}
+
+.tut-card-text strong {
+  color: #4cc9f0;
+  font-weight: 800;
+  padding: 0 2px;
+}
+
+.tut-card-text kbd {
+  display: inline-block;
+  background: rgba(76, 201, 240, 0.15);
+  border: 1px solid rgba(76, 201, 240, 0.5);
+  color: #4cc9f0;
+  padding: 2px 8px;
+  border-radius: 6px;
+  font-family: 'Courier New', monospace;
+  font-weight: 800;
+  font-size: 12px;
+  margin: 0 2px;
+  box-shadow: 0 2px 0 rgba(76, 201, 240, 0.3);
+}
+
+/* ==================== PROGRESS BAR ==================== */
+.tut-progress-bar {
+  width: 100%;
+  height: 4px;
+  background: rgba(76, 201, 240, 0.15);
+  border-radius: 2px;
+  overflow: hidden;
+  margin-bottom: 18px;
+}
+
+.tut-progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #4cc9f0, #a29bfe, #f72585);
+  border-radius: 2px;
+  transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 0 10px rgba(76, 201, 240, 0.7);
+}
+
+/* ==================== BUTONLAR ==================== */
+.tut-card-buttons {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.tut-card-buttons button {
+  flex: 1;
+  min-width: 110px;
+  background: linear-gradient(135deg, #4cc9f0, #4361ee);
+  color: #fff;
+  border: none;
+  padding: 14px 20px;
+  border-radius: 14px;
+  cursor: pointer;
+  font-weight: 800;
+  font-size: 13px;
+  letter-spacing: 2px;
+  transition: all 0.3s;
+  font-family: inherit;
+  box-shadow: 0 5px 15px rgba(76, 201, 240, 0.3);
+}
+
+.tut-card-buttons button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(76, 201, 240, 0.6);
+}
+
+.tut-card-buttons button:active {
+  transform: translateY(0) scale(0.98);
+}
+
+.tut-card-buttons button.skip {
+  background: rgba(15, 25, 50, 0.8);
+  border: 2px solid rgba(76, 201, 240, 0.4);
+  box-shadow: none;
+  flex: 0.6;
+  min-width: 80px;
+}
+
+.tut-card-buttons button.skip:hover {
+  border-color: #4cc9f0;
+  color: #4cc9f0;
+}
+
+/* ==================== ARROW (Kullanılmıyor ama kalsın) ==================== */
+.tut-arrow {
+  display: none;
+}
+
+/* ==================== RESPONSIVE ==================== */
+@media (max-width: 768px) {
+  .tut-card {
+    padding: 20px;
+    max-width: 92%;
+  }
+
+  .tut-card-icon {
+    font-size: 36px;
+  }
+
+  .tut-card-title {
+    font-size: 14px;
+    letter-spacing: 1px;
+  }
+
+  .tut-card-text {
+    font-size: 13px;
+    line-height: 1.7;
+  }
+
+  .tut-card-buttons button {
+    padding: 12px 16px;
+    font-size: 12px;
+    min-width: 90px;
+  }
+}
+
+@media (max-height: 500px) {
+  .tut-card {
+    padding: 15px;
+    max-height: 95vh;
+  }
+
+  .tut-card-header {
+    margin-bottom: 10px;
+    padding-bottom: 10px;
+  }
+
+  .tut-card-icon {
+    font-size: 28px;
+  }
+
+  .tut-card-title {
+    font-size: 13px;
+  }
+
+  .tut-card-text {
+    font-size: 12px;
+    margin-bottom: 12px;
+  }
+
+  .tut-card-buttons button {
+    padding: 10px 14px;
+    font-size: 11px;
+  }
+}
